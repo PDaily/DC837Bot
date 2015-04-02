@@ -31,6 +31,6 @@ module.exports = (robot) ->
       $('h4.service-heading').each (i, elem) ->
         weapons[i] = $(this).text()
         weapons.join(", ")
-      msg.send "*This weeks Nightfall is:* #{level}!\n*Modifers this week are:* #{modifiers}\n*Recommended weapons are:#{weapons}."
+      msg.send "*This weeks Nightfall is:* #{level}!\n*Modifers this week are:* #{modifiers}\n*Recommended weapons are:* #{weapons}."
       
       
