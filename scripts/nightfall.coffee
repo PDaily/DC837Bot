@@ -20,17 +20,35 @@ module.exports = (robot) ->
     cheerio = require('cheerio')
     request = require('request')
     request 'http://destinynightfall.com/', (error, response, html) ->
+      
       $ = cheerio.load(html)
+      
       level = $('div.intro-lead-in').first().text()
+      
       boss = $('div.intro-heading').text()
+      
       modifiers = []
+      
       $('strong').each (i, elem) ->
         modifiers[i] = $(this).text()
-        modifiers.join(", ")
+      modifiers = modifiers.join(", ")
+      
       weapons = []
+      
       $('h4.service-heading').each (i, elem) ->
         weapons[i] = $(this).text()
-        weapons.join(", ")
-      msg.send "*This weeks Nightfall is:* #{level}!\n*Modifers this week are:* #{modifiers}\n*Recommended weapons are:* #{weapons}."
+      #weapons = weapons.join(", ")
+      
+      weaponurl = []
+      $('.fa-4x a').each (i, elem) ->
+        weaponurl[i] = $(elem).attr('href')
+        
+      output = ''
+      i = 0
+      while i < weapons.length
+        output += '<' + weaponurl[i] + '|' + weapons[i] + '> '
+        i += 1
+      
+      msg.send "*This weeks Nightfall is:* #{level}!\n*Modifers this week are:* #{modifiers}\n*Recommended weapons are:* #{output}"
       
       
