@@ -5,6 +5,7 @@
   "author": "pDaily pat@pdaily.me",
   "description": "DC837 Chat Bot",
   "dependencies": {
+    "cheerio": "^0.19.0",
     "hubot": "^2.11.4",
     "hubot-diagnostics": "0.0.1",
     "hubot-google-images": "^0.1.4",
@@ -18,7 +19,8 @@
     "hubot-scripts": "^2.5.16",
     "hubot-shipit": "^0.1.2",
     "hubot-slack": "^3.3.0",
-    "hubot-youtube": "^0.1.2"
+    "hubot-youtube": "^0.1.2",
+    "request": "^2.54.0"
   },
   "engines": {
     "node": "0.10.x"
