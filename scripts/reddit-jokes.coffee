@@ -43,7 +43,7 @@ module.exports = (robot) ->
         children = data.data.children
         joke = msg.random(children).data
 
-        joketext = joke.title.replace(/\*\.\.\.$/,'') + ' ' + joke.selftext.replace(/^\.\.\.\s*/, '')
+        joketext = '*' + joke.title.replace(/\*\.\.\.$/,'') + '*\n' + joke.selftext.replace(/^\.\.\.\s*/, '')
 
         msg.send joketext.trim()
 
