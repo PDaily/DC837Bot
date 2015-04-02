@@ -37,18 +37,21 @@ module.exports = (robot) ->
       
       $('h4.service-heading').each (i, elem) ->
         weapons[i] = $(this).text()
-      #weapons = weapons.join(", ")
+      weapons = weapons.join(", ")
       
-      weaponurl = []
-      $('.fa-4x a').each (i, elem) ->
-        weaponurl[i] = $(elem).attr('href')
-        
-      output = ''
-      i = 0
-      while i < weapons.length
-        output += '<' + weaponurl[i] + '|' + weapons[i] + '> '
-        i += 1
+      # Cannot make hyperlinks at this time due to Hubot limitations
+      # https://github.com/slackhq/hubot-slack/issues/114
+      # 
+      #weaponurl = []
+      #$('.fa-4x a').each (i, elem) ->
+      #  weaponurl[i] = $(elem).attr('href')
+      #  
+      #output = ''
+      #i = 0
+      #while i < weapons.length
+      #  output += '<' + weaponurl[i] + '|' + weapons[i] + '> '
+      #  i += 1
       
-      msg.send "*This weeks Nightfall is:* #{level}!\n*Modifers this week are:* #{modifiers}\n*Recommended weapons are:* #{output}"
+      msg.send "*This weeks Nightfall is:* #{level}!\n*Modifers this week are:* #{modifiers}\n*Recommended weapons are:* #{weapons}"
       
       
