@@ -38,7 +38,7 @@ module.exports = (robot) ->
     msg.send msg.random leaveReplies
 
     
-    
+  # It'll get to you eventually?  
   robot.respond /you are a little slow/, (msg) ->
     setTimeout () ->
       msg.send "Who you calling 'slow'?"
