@@ -23,20 +23,13 @@ module.exports = (robot) ->
     else
       msg.reply "Opening #{doorType} doors"
 
-  robot.hear /I like pie/i, (msg) ->
-    msg.emote "makes a freshly baked pie"
-
-  lulz = ['lol', 'rofl', 'lmao', '( ͡° ͜ʖ ͡°)']
-
-  robot.hear /lol/i, (msg) ->
-      msg.send msg.random lulz
 
   # For when someone new enters/leaves the channel
-  enterReplies = "Welcome to the chatroom! My name is Cortana! If you have any questions, type \'Cortana help\' into the chat window :)"
+  enterReply = "Welcome to the chatroom! My name is Cortana! If you have any questions, type \'Cortana help\' into the chat window :)"
   leaveReplies = ['Are you still there?', 'Bye!', 'Where did you do?']
 
   robot.enter (msg) ->
-    msg.send enterReplies
+    msg.send enterReply
   robot.leave (msg) ->
     msg.send msg.random leaveReplies
 
