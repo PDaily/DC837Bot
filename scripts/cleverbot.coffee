@@ -18,6 +18,6 @@ cleverbot = require('cleverbot-node')
 module.exports = (robot) ->
   c = new cleverbot()
 
-  robot.hear /(.*) cortana (.*)/i, (msg) ->
+  robot.hear /(cortana)(.*)/i, (msg) ->
     data = msg.match[1].trim()
     c.write(data, (c) => msg.send(c.message))
