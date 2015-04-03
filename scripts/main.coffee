@@ -29,7 +29,10 @@ module.exports = (robot) ->
   lulz = ['lol', 'rofl', 'lmao', '( ͡° ͜ʖ ͡°)']
 
   robot.hear /lol/i, (msg) ->
-    msg.send msg.random lulz
+    if slackUser.name == 'slackbot'
+      return null
+    else
+      msg.send msg.random lulz
 
   # For when someone new enters/leaves the channel
   enterReplies = "Welcome to the chatroom! My name is Cortana! If you have any questions, type \'Cortana help\' into the chat window :)"
