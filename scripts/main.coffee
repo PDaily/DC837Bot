@@ -29,9 +29,6 @@ module.exports = (robot) ->
   lulz = ['lol', 'rofl', 'lmao', '( ͡° ͜ʖ ͡°)']
 
   robot.hear /lol/i, (msg) ->
-    if slackUser.name == 'slackbot'
-      return null
-    else
       msg.send msg.random lulz
 
   # For when someone new enters/leaves the channel
