@@ -3,6 +3,7 @@
 #
 # Dependencies:
 #   "cheerio": "^0.19.0"
+#   "request": "^2.54.0"
 #
 # Configuration:
 #   None required
