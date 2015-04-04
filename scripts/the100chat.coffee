@@ -28,4 +28,4 @@ module.exports = (robot) ->
     link = data.link if data.link != undefined
     
     #robot.messageroom "general", "#{username} created a game! #{link}" if message.match()
-    robot.messageroom "the100chat", "#{username}: #{time}-- #{message}"
+    robot.messageRoom "the100chat", "#{username}: #{time}-- #{message}"
