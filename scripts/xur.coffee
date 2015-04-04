@@ -20,10 +20,30 @@ module.exports = (robot) ->
     
     cheerio = require('cheerio')
     request = require('request')
-    request 'http://xurday.com/', (error, response, html) ->
-      
+    request 'http://www.destinylfg.com/findxur/', (error, response, html) ->
       $ = cheerio.load(html)
+      xurweek = $('div.col-xs-12 h2.text-center').first().text()
+
+      items = []
+      $('ul.list-unstyled li').slice(0,4).each (i, elem) ->
+        items[i] = $(this).text()  
+      items = items.join(', ')
+
+      location = $('img.img-responsive').first().attr('src')
       
-      location = $('div.slide-out-div center p').text()
+      fields = []
+      fields.push
+        title: "Location"
+        value: location
+        short: true
       
-      msg.send "#{location}\nThat's all you get for now."
+      payload =
+        message: msg.message
+        content:
+          text: "Item's this week are:#{items}"
+          fallback: ""
+          pretext: "Xur- Week of #{xurweek}"
+          color: "#DBB84D"
+          fields: fields
+      
+      robot.emit 'slack-attachment', payload
