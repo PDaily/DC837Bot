@@ -41,7 +41,9 @@ module.exports = (robot) ->
         content:
           text: "*Item's this week are:* #{items}"
           fallback: "Xur - http://www.destinylfg.com/findxur/"
-          pretext: "*Xur-* Week of #{xurweek}"
+          pretext: "*Xur*"
+          title: "*Xur-* Week of #{xurweek}"
+          title_link: "http://www.destinylfg.com/findxur/"
           color: "#DBB84D"
           image_url: location
           mrkdwn_in: ["text", "pretext"]
