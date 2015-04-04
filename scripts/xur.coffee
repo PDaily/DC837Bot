@@ -46,7 +46,7 @@ module.exports = (robot) ->
           title_link: "http://www.destinylfg.com/findxur/"
           color: "#DBB84D"
           image_url: location
-          mrkdwn_in: ["text", "pretext"]
+          mrkdwn_in: ["text", "pretext", "title"]
           #fields: fields
       
       robot.emit 'slack-attachment', payload
