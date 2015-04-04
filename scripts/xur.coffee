@@ -17,7 +17,6 @@
 module.exports = (robot) ->
   
   robot.hear /!+?\b(xur)/i, (msg) ->
-    
     cheerio = require('cheerio')
     request = require('request')
     request 'http://www.destinylfg.com/findxur/', (error, response, html) ->
@@ -29,21 +28,22 @@ module.exports = (robot) ->
         items[i] = $(this).text()  
       items = items.join(', ')
 
-      location = $('img.img-responsive').first().attr('src')
+      location = $('img.img-responsive').slice(2).attr("src")
       
-      fields = []
-      fields.push
-        title: "Location"
-        value: location
-        short: true
+      #fields = []
+      #fields.push
+        #title: "Location"
+        #value: location
+        #short: true
       
       payload =
         message: msg.message
         content:
           text: "Item's this week are:#{items}"
-          fallback: ""
+          fallback: "Xur!"
           pretext: "Xur- Week of #{xurweek}"
           color: "#DBB84D"
-          fields: fields
+          image_url: location
+          #fields: fields
       
       robot.emit 'slack-attachment', payload
