@@ -37,11 +37,11 @@ module.exports = (robot) ->
         #short: true
       
       payload =
-        message: "Xur- Week of #{xurweek}"
+        message: msg.message
         content:
-          text: "Item's this week are: #{items}"
-          pretext: ""
+          text: "*Item's this week are:* #{items}"
           fallback: "Xur - http://www.destinylfg.com/findxur/"
+          pretext: "*Xur-* Week of #{xurweek}"
           color: "#DBB84D"
           image_url: location
           #fields: fields
