@@ -44,7 +44,7 @@ module.exports = (robot) ->
           pretext: "*Xur-* Week of #{xurweek}"
           color: "#DBB84D"
           image_url: location
-          mrkdwn: true
+          mrkdwn_in: ["text", "pretext"]
           #fields: fields
       
       robot.emit 'slack-attachment', payload
