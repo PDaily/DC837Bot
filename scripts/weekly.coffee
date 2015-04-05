@@ -9,7 +9,7 @@
 #   None required
 #
 # Commands:
-#   !nightfall
+#   !nightfall - Requests this weeks Nightfall
 #
 # Authors:
 #   pDaily
@@ -23,7 +23,7 @@ module.exports = (robot) ->
     cheerio = require('cheerio')
     request = require('request')
     request 'http://destinynightfall.com/', (error, response, html) ->
-      
+
       $ = cheerio.load(html)
       
       level = $('div.intro-heading').text()
@@ -41,7 +41,6 @@ module.exports = (robot) ->
       weapons = weapons.join(", ")
       
       # Cannot make hyperlinks at this time due to Hubot limitations
-      # https://github.com/slackhq/hubot-slack/issues/114
       # 
       #weaponurl = []
       #$('.fa-4x a').each (i, elem) ->
@@ -52,8 +51,39 @@ module.exports = (robot) ->
       #while i < weapons.length
       #  output += '<' + weaponurl[i] + '|' + weapons[i] + '> '
       #  i += 1
+      imageMatcher = (data) ->
+        # Boss image URLs
+        askor = 'http://destinynightfall.com/img/bosses/askor.jpg'
+        omnigul = 'http://destinynightfall.com/img/bosses/omnigul.jpg'
+        phogoth = 'http://destinynightfall.com/img/bosses/phogoth.jpg'
+        sekrion = 'http://destinynightfall.com/img/bosses/sekrion.jpg'
+        sepiks = 'http://destinynightfall.com/img/bosses/sepiks.jpg'
+        valus = 'http://destinynightfall.com/img/bosses/valus.jpg'
+        
+        return aksor if data == 'askor'
+        return omnigul if data == 'omnigul'
+        return phogoth if data == 'phogoth'
+        return sekrion if data == 'sekrion'
+        return sepiks if data == 'sepiks'
+        return valus if data == 'valus'
+        null
       
-      msg.send "*This weeks Nightfall is:* #{level}!\n*Modifers this week are:* #{modifiers}\n*Recommended weapons are:* #{weapons}"
+      imageId = $('header').attr('id')
+      
+      imageUrl = imageMatcher(imageId)
+      
+      payload =
+        message: msg.message
+        content:
+          text: "Modifers this week are: #{modifiers}.\nRecommended weapons are #{weapons}."
+          fallback: "Nightfall- http://destinynightfall.com/"
+          title: "Nightfall- #{level}"
+          title_link: "http://destinynightfall.com/"
+          color: "#38a7e2"
+          image_url: imageUrl
+          mrkdwn_in: ["text", "title"]
+      
+      robot.emit 'slack-attachment', payload
       
   robot.hear /!+?\b(weekly)/i, (msg) ->
     msg.send "I haven't learned that one yet!"
