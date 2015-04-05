@@ -29,24 +29,17 @@ module.exports = (robot) ->
       items = items.join(', ')
 
       location = $('img.img-responsive').slice(2).attr("src")
-      
-      #fields = []
-      #fields.push
-        #title: "Location"
-        #value: location
-        #short: true
-      
+    
       payload =
         message: msg.message
         content:
           text: "*Item's this week are:* #{items}"
           fallback: "Xur - http://www.destinylfg.com/findxur/"
-          pretext: "*Xur*"
-          title: "*Xur-* Week of #{xurweek}"
+          pretext: "*Xur?*"
+          title: "Xur- Week of #{xurweek}"
           title_link: "http://www.destinylfg.com/findxur/"
           color: "#DBB84D"
           image_url: location
           mrkdwn_in: ["text", "pretext", "title"]
-          #fields: fields
       
       robot.emit 'slack-attachment', payload
