@@ -13,7 +13,9 @@
 #
 # Authors:
 #   pDaily
-   
+#
+# Comments:
+#    
 cheerio = require('cheerio')
 request = require('request')
 
@@ -27,7 +29,7 @@ imageMatcher = (data) ->
   sepiks = 'http://destinynightfall.com/img/bosses/sepiks.jpg'
   valus = 'http://destinynightfall.com/img/bosses/valus.jpg'
 
-  return aksor if data == 'askor'
+  return askor if data == 'askor'
   return omnigul if data == 'omnigul'
   return phogoth if data == 'phogoth'
   return sekrion if data == 'sekrion'
@@ -39,6 +41,19 @@ module.exports = (robot) ->
   # Nightfall  information. Contains a response of the boss, 'skulls' or modifiers, and the reccommended weapons.
   # Web page is downloaded with request, and parsed with cheerio. Text or url hrefs within the selected HTML tags
   # are used for the information.
+  # 
+  # TODO: Future versions will use Destiny API to pull data. Some data will need to be gathered in advance
+  # 
+  # http://www.bungie.net/platform/destiny/Advisors/
+  #   Will return a JSON object with current information
+  #     * nightfallActivityHash - Current weeks nightfall
+  #     * heroicStrikeHashes - Current weeks heroic
+  #     * dailyChapterHashes - Todays daily mission
+  # 
+  # www.bungie.net/platform/destiny/Manifest/Activity/<ACTIVITY_HASH>
+  #   Will return a JSON object which can be parsed for:
+  #     * activiyDescription - Used to match with activity name ex. "The Nexus"
+  #     * destinationHash - Used for planet name lookup (placeName) and planet description (placeDescription)
   robot.hear /!+?\b(nightfall)/i, (msg) ->
 
     request 'http://destinynightfall.com/', (error, response, html) ->
@@ -59,17 +74,23 @@ module.exports = (robot) ->
         weapons[i] = $(this).text()
       weapons = weapons.join(", ")
       
-      # Cannot make hyperlinks at this time due to Hubot limitations
+      # Cannot make hyperlinks at this time due to Hubot limitations.
       # 
-      #weaponurl = []
-      #$('.fa-4x a').each (i, elem) ->
-      #  weaponurl[i] = $(elem).attr('href')
-      #  
-      #output = ''
-      #i = 0
-      #while i < weapons.length
-      #  output += '<' + weaponurl[i] + '|' + weapons[i] + '> '
-      #  i += 1
+      # Items lookup:
+      #   http://www.bungie.net/platform/destiny/Manifest/inventoryItem/<ITEMHASH>
+      #   
+      # Hash can be plopped into http://www.destinydb.com/items/<ITEMHASH> for easy viewing.
+      ### 
+      weaponurl = []
+      $('.fa-4x a').each (i, elem) ->
+        weaponurl[i] = $(elem).attr('href')
+        
+      output = ''
+      i = 0
+      while i < weapons.length
+        output += '<' + weaponurl[i] + '|' + weapons[i] + '> '
+        i += 1
+      ###
       
       imageId = $('header').attr('id')
       
@@ -78,7 +99,7 @@ module.exports = (robot) ->
       payload =
         message: msg.message
         content:
-          text: "Modifers this week are: #{modifiers}.\nRecommended weapons are #{weapons}."
+          text: "*Modifers this week are:* #{modifiers}.\n*Recommended weapons:* are #{weapons}."
           fallback: "Nightfall- http://destinynightfall.com/"
           title: "Nightfall- #{level}"
           title_link: "http://destinynightfall.com/"
@@ -89,18 +110,18 @@ module.exports = (robot) ->
       robot.emit 'slack-attachment', payload
 
   # Weekly information. Not too much information needed here. Just level and modifiers.
-  #robot.hear /!+?\b(weekly)/i, (msg) ->
+  robot.hear /!+?\b(weekly)/i, (msg) ->
     
-    #request 'http://destinytracker.com/destiny/events/', (error, response, html) ->
+    request 'http://destinytracker.com/destiny/events/', (error, response, html) ->
       
-      #$ = cheerio.load(html)
+      $ = cheerio.load(html)
       
-      #level = $('div.panel-body div.media div.media-body h4.media-heading').text()
+      level = $('div.panel-body div.media div.media-body h4.media-heading').text()
   
-      #modifiers = []
+      modifiers = []
       
-      #$('div.media-body ul').each (i, elem) ->
-        #modifiers[i] = $('el').text()
-      #modifiers = modifiers.join(", ")
+      $('div.media-body ul').each (i, elem) ->
+        modifiers[i] = $('el').text()
+      modifiers = modifiers.join(", ")
       
-      #msg.send "*The Weekly Heroic is:* #{level}!\n*Modifers this week are:* #{modifiers}\nGet those coins Guardian!"
+      msg.send "*The Weekly Heroic is:* #{level}!\n*Modifers this week are:* #{modifiers}\nGet those coins Guardian!"
