@@ -15,7 +15,7 @@
 #   pDaily
 #
 # Comments:
-#    
+    
 cheerio = require('cheerio')
 request = require('request')
 
