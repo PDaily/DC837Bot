@@ -15,23 +15,30 @@
 # Authors:
 #   pDaily
 
-  
+###  
 module.exports = (robot) ->
   socket = require('socket.io-client') "https://the100chat.com/"
-  messages = ""
-  users = []
-  connected = false
    
   socket.on 'connect', ->
     socket.emit 'add user',"guest","Delta Company 837","8705ab8ef76274d9ee683a1d890db6d8","r" 
     
+  socket.on 'disconnect', ->
+    robot.messageRoom "the100chat", "I have lost connection to the100.io"
+    
+  socket.on 'reconnect', ->
+    robot.messageRoom "the100chat", "I have reconnected to the100.io"
+    
   socket.on 'new message', (data) ->
-    username = data.username
-    time = data.time
+    lastMessage = robot.brain.get('lastMessageTime')
+    userName = data.username
+    messageTime = new Date(data.time).getTime()
+    time = new Date(data.time).toLocaleTimeString()
     message = data.message
     link = ""
     link = data.link if data.link != undefined
     
-    #robot.messageroom "general", "#{username} created a game! #{link}" if message.match()
-    robot.messageRoom "the100chat", "#{username}: #{time}-- #{message}"
-    
+    if lastMessage < messageTime
+      robot.messageRoom "the100chat", "#{userName}: #{time}-- #{message}"
+      
+    robot.brain.set 'lastMessageTime', messageTime
+###
