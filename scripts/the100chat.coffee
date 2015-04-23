@@ -44,6 +44,8 @@ module.exports = (robot) ->
     
     # Finally compare times. If messageTime is newer than the last recorded message, post into the chat room.
     if lastMessageTimeParsed < messageTimeParsed
-      robot.messageRoom "the100chat", "#{userName}: #{localeTime}-- #{message}"
+      setTimeout () ->
+        robot.messageRoom "the100chat", "#{userName}: #{localeTime}-- #{message}"
+      , 1000
       
       robot.brain.set 'lastMessageTime', messageTime
