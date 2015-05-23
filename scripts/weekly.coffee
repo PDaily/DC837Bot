@@ -28,7 +28,7 @@ imageMatcher = (data) ->
   sekrion = 'http://destinynightfall.com/img/bosses/sekrion.jpg'
   sepiks = 'http://destinynightfall.com/img/bosses/sepiks.jpg'
   valus = 'http://destinynightfall.com/img/bosses/valus.jpg'
-  taniks = 'http://www.twinfinite.net/wp-content/uploads/2015/03/house-of-wolves.jpg'
+  taniks = 'http://blogs-images.forbes.com/insertcoin/files/2015/05/wolves3.jpg'
 
   return askor if data == 'askor'
   return omnigul if data == 'omnigul'
@@ -36,7 +36,7 @@ imageMatcher = (data) ->
   return sekrion if data == 'sekrion'
   return sepiks if data == 'sepiks'
   return valus if data == 'valus'
-  return vaniks if data == 'vaniks'
+  return taniks if data == 'taniks'
   null
     
 module.exports = (robot) ->
