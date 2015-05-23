@@ -28,6 +28,7 @@ imageMatcher = (data) ->
   sekrion = 'http://destinynightfall.com/img/bosses/sekrion.jpg'
   sepiks = 'http://destinynightfall.com/img/bosses/sepiks.jpg'
   valus = 'http://destinynightfall.com/img/bosses/valus.jpg'
+  taniks = 'http://www.twinfinite.net/wp-content/uploads/2015/03/house-of-wolves.jpg'
 
   return askor if data == 'askor'
   return omnigul if data == 'omnigul'
@@ -35,6 +36,7 @@ imageMatcher = (data) ->
   return sekrion if data == 'sekrion'
   return sepiks if data == 'sepiks'
   return valus if data == 'valus'
+  return vaniks if data == 'vaniks'
   null
     
 module.exports = (robot) ->
@@ -124,4 +126,5 @@ module.exports = (robot) ->
         modifiers[i] = $('el').text()
       modifiers = modifiers.join(", ")
       
-      msg.send "*The Weekly Heroic is:* #{level}!\n*Modifers this week are:* #{modifiers}\nGet those coins Guardian!"
+      #msg.send "*The Weekly Heroic is:* #{level}!\n*Modifers this week are:* #{modifiers}\nGet those coins Guardian!"
+      msg.send "No good source for this yet. Sorry!"
